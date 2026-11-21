@@ -1,0 +1,37 @@
+/* Extensión EcoSys D1: conserva el diseño existente; solo mejora Diagnóstico */
+.eco-cloud-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:26px;align-items:stretch}
+.eco-cloud-cta,.eco-cloud-results{border:1px solid #cfe6d9;background:#fff;border-radius:24px;box-shadow:0 12px 34px #144c3620;padding:32px}
+.eco-cloud-cta{background:radial-gradient(circle at 0% 0%,#ecfae7,#fff 62%)}
+.eco-cloud-cta p{max-width:550px}.eco-cloud-features{display:flex;gap:10px;flex-wrap:wrap;margin:23px 0}.eco-cloud-features span{background:#eaf7e5;color:#0d5c3b;border:1px solid #c7e8ce;border-radius:60px;font-size:12px;padding:7px 11px;font-weight:700}
+.eco-cloud-cta h3{font-size:29px}.eco-cloud-results h3{font-size:24px;margin-bottom:5px}
+.eco-cloud-note{font-size:12px;color:#597569;line-height:1.5;margin-top:17px}
+.eco-cloud-kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:17px 0}
+.eco-cloud-kpi{background:#f1f9f2;border:1px solid #e1ede3;border-radius:14px;padding:16px}
+.eco-cloud-kpi strong{display:block;color:#126b45;font-size:30px;line-height:1.15}.eco-cloud-kpi span{font-size:12px;color:#5a7267}
+.eco-chart-row{margin:17px 0}.eco-chart-row .eco-chart-title{display:flex;justify-content:space-between;gap:12px;font-size:13px;font-weight:700}
+.eco-chart-track{height:11px;border-radius:99px;background:#dbeade;overflow:hidden;margin:8px 0}.eco-chart-track span{display:block;height:100%;width:0;background:linear-gradient(90deg,#107447,#96d634);border-radius:99px;transition:width .65s}
+.eco-survey-dialog{width:min(810px,calc(100% - 32px));max-height:min(92vh,950px);border:1px solid #cfe7d6;border-radius:23px;padding:0;background:#fff;box-shadow:0 30px 95px #06331d61;color:#133629}
+.eco-survey-dialog::backdrop{background:#071d17b8;backdrop-filter:blur(6px)}
+.eco-modal-head{background:linear-gradient(110deg,#07583c,#1c8852);color:#fff;padding:26px 30px;display:flex;justify-content:space-between;align-items:start;gap:18px}
+.eco-modal-head h2{font-size:26px;color:#fff;margin:5px 0}.eco-modal-head p{font-size:13px;color:#e6fff0;margin:0}
+.eco-close{border:1px solid #ffffff90;color:#fff;background:#ffffff1e;border-radius:50%;height:40px;width:40px;font-size:22px;flex:none}
+.eco-modal-body{padding:26px 30px;max-height:calc(92vh - 130px);overflow-y:auto}
+.eco-survey-dialog label.eco-label{display:block;font-size:13px;font-weight:760;color:#1b4b35;margin-bottom:6px}
+.eco-survey-dialog input[type="text"],.eco-survey-dialog select{width:100%;padding:12px 13px;border:1px solid #cbded3;border-radius:12px;background:#fbfffc;color:#0d3827}
+.eco-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.eco-intro-instructions{padding:12px 14px;border-radius:12px;background:#edf8f0;border:1px solid #d2e8d9;font-size:12px;color:#375a45;margin-bottom:20px}
+.eco-q-category{font-size:12px;letter-spacing:.08em;color:#187749;text-transform:uppercase;font-weight:800;margin:24px 0 9px}
+.eco-q{border:1px solid #dfebe1;border-radius:13px;padding:14px 16px;margin:11px 0;background:#f9fcf9}
+.eco-q legend{font-size:14px;font-weight:740;padding:0 5px;line-height:1.4}
+.eco-q-options{display:flex;gap:9px;flex-wrap:wrap;margin-top:7px}
+.eco-q-options label{padding:8px 12px;background:#fff;border:1px solid #d7e9db;border-radius:99px;font-size:12px;color:#28563c;cursor:pointer}
+.eco-q-options input{accent-color:#167e4e;margin-right:4px}
+.eco-privacy{display:flex;gap:10px;padding:14px;background:#f2f8f3;border-radius:12px;margin:20px 0;font-size:12px;color:#476c56}
+.eco-privacy input{accent-color:#14854c;margin-top:3px;flex:none}
+.eco-error{display:none;padding:13px 15px;background:#fff0ed;color:#8d2916;border:1px solid #ffd2c9;border-radius:10px;font-size:13px;margin:13px 0}
+.eco-error.visible{display:block}.eco-ok{display:none;background:#e4f7ec;border-radius:12px;color:#115a37;padding:15px;margin-top:15px;font-size:14px}.eco-ok.visible{display:block}
+.eco-survey-btn{width:100%;margin-top:14px}.eco-survey-btn:disabled{opacity:.50;cursor:not-allowed}
+.eco-diagnostics{font-size:12px;min-height:22px;color:#667f70;margin-top:12px}.eco-cloud-results .btn{font-size:12px;padding:9px 14px}
+@media(max-width:900px){.eco-cloud-grid{grid-template-columns:1fr}}
+@media(max-width:550px){.eco-cloud-cta,.eco-cloud-results{padding:23px 18px}.eco-modal-body,.eco-modal-head{padding:21px 17px}.eco-form-grid{grid-template-columns:1fr}.eco-survey-dialog{width:calc(100% - 18px)}.eco-modal-head h2{font-size:21px}.eco-q-options{flex-direction:column}.eco-q-options label{width:100%}}
+@media(prefers-reduced-motion:reduce){.eco-chart-track span{transition:none}}

@@ -7,6 +7,7 @@
 <meta name="description" content="EcoSys: tecnología, conciencia y cambio. Prototipo de educación ambiental en Ingeniería en Sistemas Computacionales.">
 <title>EcoSys | Tecnología · Conciencia · Cambio</title>
 <link rel="icon" type="image/png" href="ecosys_favicon.png">
+<link rel="stylesheet" href="ecosys-cloud.css">
 <style>
 :root{--forest:#083f33;--deep:#062e29;--ink:#0b2924;--green:#15864e;--lime:#8ed724;--bright:#a9e830;--mint:#effaf0;--mint2:#dcf3e5;--teal:#0d6f5c;--white:#fff;--paper:#fbfdf9;--muted:#5b746a;--line:#ddece3;--shadow:0 16px 43px rgba(11,57,41,.10);--soft:0 7px 25px rgba(15,70,42,.08);--radius:25px}
 *,*::before,*::after{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:91px}body{margin:0;background:var(--paper);color:var(--ink);font-family:'Segoe UI',Inter,system-ui,-apple-system,Arial,sans-serif;line-height:1.58;overflow-x:hidden}img{max-width:100%}figure{margin:0}a{text-decoration:none;color:inherit}button,select,input{font:inherit}button{cursor:pointer}button,a,input,select,textarea{outline-offset:4px}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--lime)}::selection{background:#bfeb8c;color:var(--deep)}.container{width:min(1200px,calc(100% - 64px));margin-inline:auto}.sr-only{position:absolute;clip-path:inset(50%);height:1px;width:1px;overflow:hidden;white-space:nowrap}.ico{width:23px;height:23px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}.ico.large{width:36px;height:36px}.ico.tiny{width:17px;height:17px}.icon-box{width:55px;height:55px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(145deg,#eaf9e4,#d5f3de);color:var(--green)}.eyebrow{display:flex;align-items:center;gap:9px;color:var(--teal);font-weight:850;letter-spacing:.12em;text-transform:uppercase;font-size:12px}.eyebrow::before{content:'';width:29px;height:3px;border-radius:99px;background:var(--lime)}h1,h2,h3,p{margin-top:0}h1,h2,h3{line-height:1.15;letter-spacing:-.035em}h1{font-size:clamp(39px,5.7vw,72px);max-width:800px;font-weight:850;margin-bottom:24px}h2{font-size:clamp(30px,3.55vw,48px);font-weight:835;margin-bottom:17px}h3{font-size:20px;line-height:1.23}p{color:var(--muted)}.section{padding:96px 0;position:relative}.section-heading{max-width:860px;margin-bottom:36px}.section-heading>p{font-size:17px;max-width:750px}.btn{border:0;border-radius:999px;padding:14px 22px;display:inline-flex;align-items:center;justify-content:center;gap:10px;font-weight:760;font-size:14px;transition:transform .25s,box-shadow .25s,background .25s;white-space:nowrap}.btn:hover{transform:translateY(-3px);box-shadow:0 9px 24px #1655362b}.btn-primary{background:linear-gradient(100deg,#057e4d,#7acb1d);color:#fff;box-shadow:0 9px 19px #0c894036}.btn-outline{color:var(--forest);background:#fff;border:1px solid #a3cbba}.btn-dark{background:var(--forest);color:white}.btn-light{background:var(--white);color:var(--forest)}.btn .ico{width:18px;height:18px}.btn:disabled{opacity:.55;cursor:not-allowed}.link-text{color:var(--teal);font-weight:800;display:inline-flex;align-items:center;gap:7px}.link-text:hover{text-decoration:underline}.muted{color:var(--muted)}.small{font-size:13px}.chip{background:#e9f7e4;border:1px solid #ceebd7;border-radius:100px;padding:7px 12px;display:inline-flex;align-items:center;gap:5px;font-weight:770;font-size:12px;color:#1b6e43}.inset{background:linear-gradient(140deg,#f1f9f3,#fff);border:1px solid var(--line);border-radius:18px}.reveal{opacity:0;transform:translateY(34px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}.reveal.visible{opacity:1;transform:none}
@@ -172,32 +173,52 @@
     </div>
   </div>
 </section>
-<!-- 06 DIAGNOSIS -->
+<!-- 06 DIAGNÓSTICO CON BASE DE DATOS D1 -->
 <section class="section diagnosis" id="diagnostico">
-  <div class="container">
-    <div class="section-heading diag-intro reveal"><div class="eyebrow">Diagnóstico del prototipo</div><h2>Conoce, participa y ayuda a identificar oportunidades</h2><p>Este instrumento de demostración permite registrar respuestas anónimas sobre hábitos ambientales, sin recopilar nombres, matrículas ni correos electrónicos.</p></div>
-    <div class="diag-grid">
-      <div class="diag-description reveal"><h3>La información es el primer paso</h3><p>Se propone realizar un diagnóstico con estudiantes y docentes de Ingeniería en Sistemas Computacionales del ITSSAT para orientar los contenidos de EcoSys.</p><div class="check-line"><svg class="ico"><use href="#i-check"/></svg><span>Encuesta breve, sin datos personales.</span></div><div class="check-line"><svg class="ico"><use href="#i-check"/></svg><span>Indicadores de hábitos declarados.</span></div><div class="check-line"><svg class="ico"><use href="#i-check"/></svg><span>Base para evaluar y mejorar el prototipo.</span></div><div class="inset" style="padding:18px;margin-top:24px"><strong>Muestra propuesta:</strong> 30 estudiantes y 5 docentes. <span class="small muted">Esta cantidad aún debe validarse; no representa personas ya encuestadas.</span></div></div>
-      <form class="survey-card reveal" id="surveyForm"><h3><svg class="ico"><use href="#i-list"/></svg> Encuesta de sustentabilidad</h3><p>Selecciona las opciones que mejor describen tus hábitos.</p>
-        <div class="form-field"><label class="field-label" for="profile">1. ¿Cuál es tu perfil?</label><select class="select-field" id="profile" name="profile" required><option value="">Selecciona una opción</option><option value="Estudiante">Estudiante</option><option value="Docente">Docente</option></select></div>
-        <div class="form-field"><fieldset><legend>2. ¿Separas la basura según el tipo de residuo?</legend><div class="choices"><label><input type="radio" name="waste" value="Siempre" required> Siempre</label><label><input type="radio" name="waste" value="A veces"> A veces</label><label><input type="radio" name="waste" value="Nunca"> Nunca</label></div></fieldset></div>
-        <div class="form-field"><fieldset><legend>3. ¿Evitas dejar equipos encendidos sin uso?</legend><div class="choices"><label><input type="radio" name="energy" value="Siempre" required> Siempre</label><label><input type="radio" name="energy" value="A veces"> A veces</label><label><input type="radio" name="energy" value="Nunca"> Nunca</label></div></fieldset></div>
-        <div class="form-field"><fieldset><legend>4. ¿Sabes dónde entregar aparatos electrónicos en desuso?</legend><div class="choices"><label><input type="radio" name="ewaste" value="Sí" required> Sí</label><label><input type="radio" name="ewaste" value="No"> No</label></div></fieldset></div>
-        <div class="form-field"><fieldset><legend>5. ¿Te parece útil una plataforma como EcoSys?</legend><div class="choices"><label><input type="radio" name="useful" value="Sí" required> Sí</label><label><input type="radio" name="useful" value="No"> No</label></div></fieldset></div>
-        <button class="btn btn-primary" type="submit">Registrar respuesta local <svg class="ico"><use href="#i-arrow"/></svg></button>
-        <p class="form-note"><svg class="ico tiny" style="vertical-align:-3px"><use href="#i-lock"/></svg> Solo se guarda en el navegador de este dispositivo. No se envía a un servidor.</p><div class="form-feedback" id="surveyFeedback" role="status" aria-live="polite"></div>
-      </form>
-      <aside class="results-mini reveal"><h3>Resultados de la demostración</h3><p class="small">Se actualizan al contestar la encuesta en este dispositivo.</p><div id="resultEmpty" class="result-empty">Todavía no hay respuestas locales. Los indicadores aparecerán al completar el formulario.</div>
-        <div class="result-item"><div class="result-line"><span>Separación de residuos (siempre)</span><strong id="wastePct">—</strong></div><div class="result-track"><span id="wasteBar"></span></div></div>
-        <div class="result-item"><div class="result-line"><span>Ahorro de energía (siempre)</span><strong id="energyPct">—</strong></div><div class="result-track"><span id="energyBar"></span></div></div>
-        <div class="result-item"><div class="result-line"><span>Conocimiento sobre e-residuos</span><strong id="ewastePct">—</strong></div><div class="result-track"><span id="ewasteBar"></span></div></div>
-        <div class="result-item"><div class="result-line"><span>Utilidad percibida de EcoSys</span><strong id="usefulPct">—</strong></div><div class="result-track"><span id="usefulBar"></span></div></div>
-        <div class="inset" style="padding:13px 16px;margin-bottom:17px"><strong id="localCount">0</strong> <span class="small">respuestas almacenadas localmente</span></div>
-        <div class="result-buttons"><button class="btn btn-dark" id="exportResults" type="button">Exportar CSV</button><button class="btn btn-outline" id="clearResults" type="button">Borrar datos</button></div>
-      </aside>
-    </div>
+ <div class="container">
+  <div class="section-heading reveal"><div class="eyebrow">Diagnóstico ambiental EcoSys</div><h2>Participa y contribuye a conocer los hábitos ambientales</h2><p>Una encuesta de 15 preguntas para estudiantes, docentes y personal administrativo. Las respuestas se almacenarán en Cloudflare D1 una vez que se habilite la recopilación autorizada.</p></div>
+  <div class="eco-cloud-grid">
+   <article class="eco-cloud-cta reveal">
+    <div class="icon-box"><svg class="ico large"><use href="#i-list"/></svg></div>
+    <h3 style="margin-top:22px">Tu opinión puede orientar mejoras</h3>
+    <p>Explora preguntas sobre separación de basura, energía, residuos electrónicos, recursos y conciencia ambiental. La participación es voluntaria.</p>
+    <div class="eco-cloud-features"><span>15 preguntas</span><span>3 perfiles</span><span>Identificador único</span><span>Datos privados</span></div>
+    <button class="btn btn-primary" type="button" id="ecoOpenSurvey">Responder encuesta <svg class="ico"><use href="#i-arrow"/></svg></button>
+    <p class="eco-cloud-note">Las respuestas de los participantes se guardarán en una base de datos cuando se complete la configuración y exista autorización. Los nombres permanecen desactivados inicialmente.</p>
+   </article>
+   <aside class="eco-cloud-results reveal" aria-label="Resultados agregados de la encuesta">
+    <div class="eyebrow">Resultados públicos</div><h3>Estadísticas de EcoSys</h3>
+    <p id="ecoCloudStatsInfo" class="small">Conectando con Cloudflare D1...</p>
+    <div class="eco-cloud-kpis"><div class="eco-cloud-kpi"><strong id="ecoCloudTotal">—</strong><span>Encuestas recibidas</span></div><div class="eco-cloud-kpi"><strong>15</strong><span>Preguntas ambientales</span></div></div>
+    <div id="ecoCloudCharts" aria-live="polite"></div>
+    <p id="ecoCloudRoleStats" class="eco-cloud-note"></p>
+    <button type="button" class="btn btn-outline" id="ecoRefreshStats">Actualizar estadísticas</button>
+    <p class="eco-cloud-note">No se muestran nombres ni respuestas individuales. Los porcentajes aparecen cuando se reúne una cantidad mínima de respuestas.</p>
+   </aside>
   </div>
+ </div>
 </section>
+<dialog class="eco-survey-dialog" id="ecoSurveyDialog" aria-labelledby="ecoDialogTitle">
+ <div class="eco-modal-head"><div><div style="font-size:11px;letter-spacing:.12em;font-weight:750">ECOSYS · ISC 304A</div><h2 id="ecoDialogTitle">Encuesta de sustentabilidad</h2><p>Completa los datos de participación y responde las preguntas.</p></div><button class="eco-close" id="ecoCloseSurvey" type="button" aria-label="Cerrar encuesta">×</button></div>
+ <div class="eco-modal-body">
+  <p class="eco-intro-instructions">La participación es voluntaria. El identificador permite reconocer una respuesta por persona y encuesta, pero no verifica la identidad por sí solo. No se deben introducir datos falsos ni de otras personas.</p>
+  <form id="ecoCloudForm">
+    <div class="eco-form-grid">
+     <div><label class="eco-label" for="ecoRole">Perfil de participante *</label><select id="ecoRole" required><option value="">Selecciona un perfil</option><option value="estudiante">Estudiante</option><option value="docente">Docente</option><option value="administrativo">Personal administrativo</option></select></div>
+     <div><label class="eco-label" for="ecoCode">Identificador único *</label><div style="display:flex;gap:6px"><input id="ecoCode" required maxlength="19" type="text" autocomplete="off"><button type="button" id="ecoCopyCode" class="btn btn-outline" style="padding:10px" title="Copiar identificador">Copiar</button></div></div>
+     <div id="ecoGroupWrap" hidden><label class="eco-label" for="ecoGroup">Grupo *</label><input id="ecoGroup" type="text" maxlength="50" placeholder="Ejemplo: ISC 304A"></div>
+     <div id="ecoAreaWrap" hidden><label class="eco-label" for="ecoArea">Departamento o área *</label><input id="ecoArea" type="text" maxlength="75" placeholder="Ejemplo: Servicios escolares"></div>
+     <div id="ecoNameWrap" hidden><label class="eco-label" for="ecoName">Nombre (opcional y autorizado)</label><input id="ecoName" type="text" maxlength="100" autocomplete="name" placeholder="Solo si existe aviso de privacidad aprobado"></div>
+    </div>
+    <div id="ecoQuestionList" aria-live="polite"></div>
+    <label class="eco-privacy"><input id="ecoPrivacy" type="checkbox" required> <span>Confirmo que he leído la información de uso de datos: se registrarán mi perfil, grupo o área, identificador y respuestas para evaluar hábitos ambientales. Los resultados públicos serán agregados. No se registrará mi nombre salvo que la institución autorice expresamente esa función. Puedo consultar con el responsable del proyecto sobre el tratamiento de mi información antes de participar.</span></label>
+    <div id="ecoTurnstile"></div>
+    <p id="ecoCloudStatus" class="eco-diagnostics" role="status"></p>
+    <div id="ecoCloudError" class="eco-error" role="alert"></div><div id="ecoCloudDone" class="eco-ok" role="status"></div>
+    <button id="ecoSend" class="btn btn-primary eco-survey-btn" type="submit" disabled>Guardar encuesta en EcoSys</button>
+  </form>
+ </div>
+</dialog>
 <!-- 07 QUIZ -->
 <section class="section quiz-section" id="herramientas">
   <div class="container quiz-layout">
@@ -269,14 +290,6 @@ const HABITS=['Evito dejar equipos encendidos innecesariamente.','Separo la basu
 function getHabits(){try{const x=JSON.parse(readStore(HABITS_KEY));return Array.isArray(x)?x:[]}catch{return []}}
 function drawHabits(){const checked=getHabits();byId('habitChecks').innerHTML=HABITS.map((t,i)=>'<label class="habit-check"><input type="checkbox" data-habit="'+i+'" '+(checked.includes(i)?'checked':'')+'><span>'+t+'</span></label>').join('');byId('habitBar').style.width=(checked.length/HABITS.length*100)+'%';byId('habitLabel').textContent=checked.length+' de '+HABITS.length+' acciones';byId('habitPercent').textContent=Math.round(checked.length/HABITS.length*100)+'%';document.querySelectorAll('[data-habit]').forEach(c=>c.addEventListener('change',()=>{const ids=[...document.querySelectorAll('[data-habit]:checked')].map(x=>Number(x.dataset.habit));writeStore(HABITS_KEY,JSON.stringify(ids));drawHabits()}))}
 byId('resetHabits').addEventListener('click',()=>{removeStore(HABITS_KEY);drawHabits();showToast('Lista de prácticas reiniciada')});drawHabits();
-// Anonymous demonstration questionnaire
-function getSurvey(){try{const x=JSON.parse(readStore(KEY));return Array.isArray(x)?x:[]}catch{return []}}
-const metricMap=[['waste','Siempre','wastePct','wasteBar'],['energy','Siempre','energyPct','energyBar'],['ewaste','Sí','ewastePct','ewasteBar'],['useful','Sí','usefulPct','usefulBar']];
-function refreshSurvey(){const records=getSurvey(),n=records.length;byId('localCount').textContent=String(n);byId('resultEmpty').style.display=n?'none':'block';metricMap.forEach(([k,val,id,bar])=>{const pct=n?Math.round(100*records.filter(r=>r[k]===val).length/n):null;byId(id).textContent=pct===null?'—':pct+'%';byId(bar).style.width=(pct||0)+'%'});byId('exportResults').disabled=n===0;byId('clearResults').disabled=n===0}
-byId('surveyForm').addEventListener('submit',e=>{e.preventDefault();const form=new FormData(e.currentTarget);const data={profile:form.get('profile'),waste:form.get('waste'),energy:form.get('energy'),ewaste:form.get('ewaste'),useful:form.get('useful')};if(Object.values(data).some(v=>!v)){showToast('Completa todas las preguntas');return};const all=getSurvey();all.push(data);writeStore(KEY,JSON.stringify(all));refreshSurvey();e.currentTarget.reset();byId('surveyFeedback').textContent='Respuesta registrada únicamente en este navegador. El panel se ha actualizado.';byId('surveyFeedback').classList.add('show');showToast('Respuesta de demostración registrada')});
-byId('clearResults').addEventListener('click',()=>{if(!window.confirm('¿Borrar todas las respuestas guardadas en este navegador?'))return;removeStore(KEY);refreshSurvey();showToast('Respuestas locales eliminadas')});
-function downloadText(filename,content,type='text/plain;charset=utf-8'){const blob=new Blob(['\ufeff',content],{type});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)}
-byId('exportResults').addEventListener('click',()=>{const records=getSurvey();if(!records.length)return;const fields=['profile','waste','energy','ewaste','useful'];const csv=[fields.join(','),...records.map(r=>fields.map(k=>'"'+String(r[k]).replaceAll('"','""')+'"').join(','))].join('\n');downloadText('EcoSys_respuestas_locales.csv',csv,'text/csv;charset=utf-8');showToast('Archivo CSV descargado')});refreshSurvey();
 // Quiz
 const QUIZ=[{q:'¿Qué acción ayuda a ahorrar energía en el laboratorio?',a:['Dejar la pantalla encendida al salir','Apagar el equipo según el reglamento al terminar','Encender más dispositivos'],correct:1},{q:'¿Qué se debe hacer con un cable o teclado que ya no funciona?',a:['Depositarlo con restos de comida','Tirarlo en cualquier contenedor','Consultar el procedimiento de acopio de electrónicos'],correct:2},{q:'¿Qué práctica favorece la separación de basura?',a:['Identificar el contenedor correspondiente','Mezclar residuos reciclables con otros desechos','Usar más artículos desechables'],correct:0},{q:'¿Qué significan las siglas PHVA?',a:['Probar, habilitar, verificar y actualizar','Planear, hacer, verificar y actuar','Publicar, habilitar, vender y archivar'],correct:1},{q:'¿Qué representa ISO 14001 para EcoSys?',a:['Un certificado ya obtenido','La obligación de instalar sensores','Un marco orientativo de gestión ambiental y mejora'],correct:2}];
 byId('quizItems').innerHTML=QUIZ.map((q,i)=>'<fieldset class="quiz-item"><legend>'+(i+1)+'. '+q.q+'</legend><div class="quiz-options">'+q.a.map((t,j)=>'<label><input type="radio" name="q'+i+'" value="'+j+'" required><span>'+t+'</span></label>').join('')+'</div></fieldset>').join('');
@@ -299,5 +312,7 @@ if(modal && typeof modal.showModal==='function'){
 // Image fallbacks: keep decorative background without broken-image icon
 for(const image of document.querySelectorAll('.photo-tile img,.resource-image img')){image.addEventListener('error',()=>{image.style.display='none'})}
 </script>
+<script src="ecosys-config.js"></script>
+<script src="ecosys-cloud.js" defer></script>
 </body>
 </html>
