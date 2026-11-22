@@ -37,15 +37,30 @@
     }
     const scr=document.createElement('script');scr.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';scr.async=true;scr.onload=()=>buildTurnstile();scr.onerror=()=>status('No fue posible cargar la verificación de seguridad.');document.head.appendChild(scr);
   }
+  // Encuesta: enfocar el botón de cierre sin desplazar el formulario al abrirlo.
+  function resetSurveyScroll(){
+    const body=document.querySelector('#ecoSurveyDialog .eco-modal-body');
+    if(!body)return;
+    try{$('ecoCloseSurvey').focus({preventScroll:true});}catch{}
+    body.scrollTop=0;
+    requestAnimationFrame(()=>{body.scrollTop=0;});
+  }
   async function openSurvey(){
     const dlg=$('ecoSurveyDialog');if(typeof dlg.showModal==='function')dlg.showModal();else dlg.setAttribute('open','');
+    resetSurveyScroll();
     $('ecoCloudDone').classList.remove('visible');clearError();$('ecoCode').value=code();
     if(!endpoint){status('Configura primero la URL del Worker en ecosys-config.js.');$('ecoSend').disabled=true;return;}
+    // El servidor no admite solicitudes desde file://; no mostrar un error engañoso.
+    if(location.protocol==='file:'){
+      status('Vista previa local. Para cargar las 15 preguntas y comprobar D1, abre la página publicada en GitHub Pages.');
+      $('ecoSend').disabled=true;return;
+    }
     if(survey){status('');return;}
     status('Cargando encuesta desde Cloudflare D1...');
     try {
       survey=await fetchJson('/api/survey');
       drawQuestions(survey.questions);
+      resetSurveyScroll();
       $('ecoNameWrap').hidden=!survey.collect_names;$('ecoName').required=Boolean(survey.collect_names);
       $('ecoSend').disabled=!survey.submissions_enabled||!siteKey;
       status(survey.submissions_enabled?(siteKey?'':'Configura la clave pública de Turnstile.'):'Encuesta disponible para lectura; el registro todavía está desactivado en Cloudflare.');
@@ -79,16 +94,40 @@
     const label=document.createElement('span');label.textContent=q.prompt;const value=document.createElement('strong');value.textContent=`${chosen.label}: ${chosen.percent}%`;
     line.append(label,value);const track=document.createElement('div');track.className='eco-chart-track';const bar=document.createElement('span');bar.style.width=chosen.percent+'%';track.append(bar);el.append(line,track);return el;
   }
+  // INDICADORES ITSSAT: porcentajes reales provenientes de D1, sin cifras simuladas.
+  function updateInstitutionStats(data){
+    const write=(id,value)=>{const el=$(id);if(el)el.textContent=String(value);};
+    write('ecosysItssatTotal', Number.isFinite(Number(data.total)) ? data.total : '—');
+    const questions=Array.isArray(data.questions)?data.questions:[];
+    const findPercent=(match,answer)=>{
+      const q=questions.find(x=>match.test(x.prompt||''));
+      if(!q)return '—';
+      const o=(q.options||[]).find(x=>answer.test(x.label||''));
+      return o&&Number.isFinite(Number(o.percent))?`${Math.round(Number(o.percent))}%`:'—';
+    };
+    if(data.status!=='ready'){
+      ['ecosysItssatResidues','ecosysItssatEnergy','ecosysItssatAwareness'].forEach(id=>write(id,'—'));
+      return;
+    }
+    write('ecosysItssatResidues',findPercent(/separas la basura/i,/^siempre$/i));
+    write('ecosysItssatEnergy',findPercent(/apagas o suspendes.*computadora/i,/^siempre$/i));
+    write('ecosysItssatAwareness',findPercent(/importante cuidar el ambiente/i,/^s[ií]$/i));
+  }
   async function refreshStats(){
     const root=$('ecoCloudCharts');root.replaceChildren();
     if(!endpoint){$('ecoCloudTotal').textContent='—';$('ecoCloudStatsInfo').textContent='Pendiente: configurar la API de Cloudflare.';return;}
+    if(location.protocol==='file:'){
+      $('ecoCloudTotal').textContent='—';
+      $('ecoCloudStatsInfo').textContent='Las estadísticas se consultan desde la página publicada.';
+      return;
+    }
     $('ecoCloudStatsInfo').textContent='Consultando resultados reales...';
     try{
-      const data=await fetchJson('/api/stats');$('ecoCloudTotal').textContent=String(data.total);
+      const data=await fetchJson('/api/stats');updateInstitutionStats(data);$('ecoCloudTotal').textContent=String(data.total);
       $('ecoCloudStatsInfo').textContent=data.status==='ready'?'Datos agregados de la encuesta (sin datos personales).':`Resultados en recopilación. Se muestran gráficas cuando haya al menos ${data.min_sample} respuestas.`;
       if(data.status==='ready')data.questions.slice(0,6).forEach(q=>root.append(barItem(q)));
-      else {const p=document.createElement('p');p.className='eco-cloud-note';p.textContent='Aún no hay suficientes respuestas para presentar porcentajes confiables.';root.append(p)}
-      const role=$('ecoCloudRoleStats');role.textContent=data.roles?.length?data.roles.map(x=>`${x.role}: ${x.count}`).join(' · '):'No se muestra el desglose de perfiles cuando algún grupo tiene menos de 5 respuestas.';
+      else {const p=document.createElement('p');p.className='eco-cloud-note';p.textContent='Las gráficas estarán disponibles conforme se registren más respuestas.';root.append(p)}
+      const role=$('ecoCloudRoleStats');role.textContent=data.roles?.length?data.roles.map(x=>`${x.role}: ${x.count}`).join(' · '):'';
     }catch(ex){$('ecoCloudStatsInfo').textContent='No fue posible consultar estadísticas: '+ex.message;}
   }
   function init(){

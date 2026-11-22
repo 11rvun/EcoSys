@@ -1,0 +1,338 @@
+/* ================================================================
+   ECOSYS · MOVIMIENTO VISUAL
+   Compártelo entre index.html y aviso-privacidad.html.
+   Cambia colores en :root del HTML principal; tiempos aquí.
+   ================================================================ */
+
+/* 01. Parámetros generales y entradas suaves */
+:root{
+  --motion-ease:cubic-bezier(.22,1,.36,1);
+  --motion-smooth:cubic-bezier(.16,1,.3,1);
+  --motion-speed:760ms;
+  --motion-spot-x:50%;
+  --motion-spot-y:50%;
+}
+html{scroll-behavior:smooth}
+body{isolation:isolate}
+.site-header{will-change:auto}
+.site-header .brand img{transition:transform .7s var(--motion-ease),filter .5s ease}
+.site-header .brand:hover img{transform:rotate(-5deg) scale(1.075);filter:drop-shadow(0 7px 12px #8bdd644d)}
+/* Misma navegación en ambas páginas, con indicador discreto. */
+.nav-links a{position:relative;transition:color .35s,background .35s,transform .35s var(--motion-ease)!important;white-space:nowrap}
+.nav-links a:not(.active):hover{transform:translateY(-2px)}
+.nav-links a:focus-visible{outline-offset:3px}
+.nav-links a.active{box-shadow:inset 0 0 0 1px #ecffd850}
+#scroll-progress{height:3px;box-shadow:0 0 10px #b7ff7088}
+
+/* 02. Cabeceras: aparición de titulares y paisaje sin saltos. */
+.motion-ready.motion-in .hero h1{
+  animation:headline-in 1100ms var(--motion-ease) both;
+}
+.motion-ready.motion-in .hero .hero-lead{
+  animation:headline-in 1000ms 125ms var(--motion-ease) both;
+}
+.motion-ready.motion-in .hero .hero-actions{
+  animation:headline-in 1000ms 220ms var(--motion-ease) both;
+}
+.motion-ready.motion-in .hero .eyebrow{
+  animation:headline-in 800ms 60ms var(--motion-ease) both;
+}
+.hero::after{animation:ambient-drift 22s ease-in-out infinite alternate}
+.hero-floating,.hero-pill,.hero-symbol{will-change:transform}
+.hero-art::before{transition:filter .6s ease}
+
+/* 03. Tarjetas y ventanas: elevación fluida + brillo que sigue al mouse. */
+:where(.problem-card,.feature,.resource,.summary-card,.policy-card,.eco-cloud-cta,.eco-cloud-results,.standards-panel,.survey-card,.tips-panel,.inset,.results-mini,.timeline-step){
+  position:relative;
+  isolation:isolate;
+  transition:transform .65s var(--motion-ease),box-shadow .65s var(--motion-ease),border-color .4s ease,background-color .4s ease!important;
+}
+:where(.problem-card,.feature,.resource,.summary-card,.policy-card,.eco-cloud-cta,.eco-cloud-results,.standards-panel,.survey-card,.tips-panel,.results-mini)::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;z-index:1;pointer-events:none;
+  background:radial-gradient(360px circle at var(--motion-spot-x) var(--motion-spot-y),#9be67a28,transparent 68%);
+  opacity:0;transition:opacity .65s ease;
+}
+:where(.problem-card,.feature,.resource,.summary-card,.policy-card,.eco-cloud-cta,.eco-cloud-results,.standards-panel,.survey-card,.tips-panel,.results-mini):hover::before{opacity:1}
+:where(.problem-card,.feature,.resource,.summary-card,.policy-card,.eco-cloud-cta,.eco-cloud-results,.standards-panel,.survey-card,.tips-panel,.results-mini):hover{
+  transform:translateY(-7px);box-shadow:0 26px 60px #07362c20;
+}
+.policy-card:focus-within,.resource:focus-within,.eco-cloud-cta:focus-within{border-color:#8cd5a5}
+
+/* 04. Botones: efecto reflectante, recorrido suave y pulsación. */
+.btn,.tip-tab,.eco-close,.mobile-toggle,.back-top,.sidebar a,.eco-privacy-action{
+  transition:transform .52s var(--motion-ease),box-shadow .5s var(--motion-ease),background-color .35s ease,color .35s ease,border-color .35s ease!important;
+}
+.btn{position:relative;overflow:hidden;isolation:isolate}
+.btn::before{
+  content:"";position:absolute;inset:-110% -50%;z-index:-1;pointer-events:none;
+  background:linear-gradient(105deg,transparent 35%,#fff5 49%,transparent 61%);
+  transform:translateX(-100%) rotate(9deg);transition:transform .8s var(--motion-smooth);
+}
+.btn:hover::before{transform:translateX(95%) rotate(9deg)}
+.btn:hover{transform:translate3d(var(--mag-x,0px),calc(var(--mag-y,0px) - 4px),0) scale(1.024)!important;box-shadow:0 15px 36px #0c894030}
+.btn:active{transform:translate3d(0,1px,0) scale(.975)!important;transition-duration:.12s!important}
+.btn:disabled:hover{transform:none!important;box-shadow:none}
+.btn svg,.btn .icon,.btn .ico{transition:transform .45s var(--motion-ease)}
+.btn:hover svg,.btn:hover .icon,.btn:hover .ico{transform:translateX(4px)}
+.tip-tab:hover,.sidebar a:hover{transform:translateY(-2px)}
+
+/* 05. Lectura: animación al desplazar, con aparición escalonada. */
+.reveal{transition-duration:1s!important;transition-timing-function:var(--motion-ease)!important}
+.motion-ready .motion-rise:not(.motion-visible){opacity:0;filter:blur(7px);transform:translate3d(0,38px,0) scale(.987)}
+.motion-rise{transition:opacity .9s var(--motion-ease),transform .95s var(--motion-ease),filter .95s ease;transition-delay:var(--motion-delay,0ms)}
+.motion-ready .motion-rise.motion-visible{opacity:1;filter:blur(0);transform:translate3d(0,0,0) scale(1)}
+.motion-ready .motion-side:not(.motion-visible){opacity:0;transform:translate3d(-25px,0,0)}
+.motion-side{transition:opacity .85s var(--motion-ease),transform .85s var(--motion-ease)}
+.motion-ready .motion-side.motion-visible{opacity:1;transform:none}
+/* Pequeñas líneas de acento animadas. */
+.eyebrow::before{transform-origin:left center;animation:accent-breathe 4.2s ease-in-out infinite}
+
+/* 06. Encuesta: una única región de desplazamiento y apertura/cierre. */
+.eco-survey-dialog[open]{display:flex;flex-direction:column;overflow:hidden;max-height:min(92dvh,950px);animation:window-in .5s var(--motion-ease) both;transform-origin:50% 23%}
+.eco-survey-dialog.is-closing[open]{animation:window-out .24s ease-in both}
+.eco-survey-dialog .eco-modal-head{flex:0 0 auto}
+.eco-survey-dialog .eco-modal-body{flex:1 1 auto;min-height:0;max-height:none;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable}
+.eco-survey-dialog::backdrop{animation:backdrop-in .45s ease both}
+.eco-survey-dialog.is-closing::backdrop{animation:backdrop-out .24s ease both}
+.eco-q{transition:border-color .3s ease,background-color .3s ease,transform .45s var(--motion-ease)}
+.eco-q:hover{border-color:#b0dbba;background:#fbfffa;transform:translateY(-1px)}
+.eco-q-options label{transition:background .24s,border-color .24s,transform .3s var(--motion-ease)}
+.eco-q-options label:hover{background:#eaf8ed;border-color:#8fc9a4;transform:translateY(-1px)}
+.eco-privacy{line-height:1.7;padding:16px 18px}
+.eco-privacy a{text-decoration:underline;text-underline-offset:3px;color:#066b4b;font-weight:720}
+.eco-privacy-link{font-size:13px;margin:8px 0 19px;color:#4e7161}
+.eco-privacy-action{font-weight:760;color:#075d45;text-decoration:underline;text-underline-offset:3px;display:inline-flex;align-items:center;gap:4px}
+.eco-privacy-action:hover{color:#199150;transform:translateX(3px)}
+.eco-cloud-kpi{transition:transform .55s var(--motion-ease),background-color .5s}
+.eco-cloud-kpi:hover{transform:translateY(-4px);background:#eaf7ec}
+
+/* 07. Panel lateral del aviso: selección más evidente. */
+.sidebar{box-shadow:0 13px 34px #053d2815}
+.sidebar a{position:relative}
+.sidebar a:hover,.sidebar a.active{background:#eaf8eb;color:#0a5b3d}
+.policy-card{scroll-margin-top:110px}
+.timeline-step:hover{transform:translateY(-4px);box-shadow:0 13px 24px #0d55300e}
+.hero-art{transition:transform .45s ease;transform:translateY(var(--art-move,0px))}
+
+/* 08. Cambio entre páginas: desvanecimiento corto, sin bloquear enlaces externos. */
+.motion-page-cover{position:fixed;inset:0;z-index:200;background:#083f33;opacity:0;pointer-events:none;transform:translateY(100%);transition:transform .52s var(--motion-ease),opacity .45s ease}
+.motion-leaving .motion-page-cover{opacity:1;transform:translateY(0)}
+
+/* Fotogramas de movimiento */
+@keyframes headline-in{from{opacity:0;transform:translateY(36px);filter:blur(7px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+@keyframes ambient-drift{from{background-position:0 0}to{background-position:60px -35px}}
+@keyframes accent-breathe{0%,100%{transform:scaleX(1)}50%{transform:scaleX(.72)}}
+@keyframes window-in{from{opacity:0;transform:translateY(25px) scale(.958);filter:blur(7px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes window-out{from{opacity:1;transform:none}to{opacity:0;transform:translateY(12px) scale(.974)}}
+@keyframes backdrop-in{from{background:#071d1700;backdrop-filter:blur(0)}to{background:#071d17b8;backdrop-filter:blur(6px)}}
+@keyframes backdrop-out{from{background:#071d17b8;backdrop-filter:blur(6px)}to{background:#071d1700;backdrop-filter:blur(0)}}
+
+/* 09. Menú responsivo: mismo comportamiento en las dos páginas. */
+@media(max-width:1160px){
+  .header-tag{display:none!important}
+  .nav-links a{font-size:11px!important;padding:10px 8px!important}
+}
+@media(max-width:960px){
+  .site-header{height:71px}
+  .mobile-toggle{display:block!important}
+  .nav-links{position:absolute;top:71px;left:0;right:0;display:none!important;flex-direction:column;align-items:stretch;background:#073a30;padding:16px max(18px,calc((100% - 720px)/2));gap:4px;box-shadow:0 19px 30px #062d2940;max-height:calc(100dvh - 71px);overflow:auto}
+  .nav-links.open{display:flex!important;animation:window-in .4s var(--motion-ease)}
+  .nav-links a{font-size:14px!important;text-align:center;padding:13px!important}
+}
+@media(max-width:570px){
+  .eco-survey-dialog[open]{max-height:94dvh}
+  .eco-survey-dialog .eco-modal-body{max-height:none}
+  .hero h1{letter-spacing:-.045em}
+  .btn{min-height:44px}
+  .motion-ready .motion-rise:not(.motion-visible){transform:translate3d(0,22px,0)}
+}
+/* 10. Accesibilidad: respeta preferencia de movimiento reducido. */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .motion-ready .motion-rise:not(.motion-visible),.motion-ready .motion-side:not(.motion-visible){opacity:1!important;filter:none!important;transform:none!important}
+  .reveal{opacity:1!important;transform:none!important}
+  .motion-page-cover{display:none!important}
+  .btn:hover,.btn:active,.eco-q:hover,.timeline-step:hover{transform:none!important}
+}
+
+
+/* 11. Corrección: galería y panel de texto en pantallas grandes.
+   Antes el padding dependía de (100vw - 1200px)/2 y estrechaba el texto. */
+.photostory .story-layout{
+  grid-template-columns:minmax(0, .9fr) minmax(0, 1.5fr);
+  min-height:0;
+  align-items:stretch;
+}
+.photostory .story-panel{
+  /* Modifica estos valores para dar más o menos espacio al texto. */
+  padding:clamp(36px,4.5vw,82px) clamp(28px,3.8vw,80px);
+  min-width:0;
+  min-height:0;
+  justify-content:center;
+  align-items:flex-start;
+}
+.photostory .story-panel > *{max-width:650px;min-width:0}
+.photostory .story-panel h2{
+  font-size:clamp(29px,2.75vw,44px);
+  line-height:1.14;
+  overflow-wrap:normal;
+  hyphens:auto;
+}
+.photostory .story-panel p{
+  font-size:clamp(14px,1.05vw,16px);
+  line-height:1.75;
+  overflow-wrap:break-word;
+}
+.photostory .photo-grid{
+  grid-template-rows:repeat(2,minmax(215px,1fr));
+  min-height:480px;
+}
+/* Galería en móviles: primero información y luego fotos. */
+@media(max-width:850px){
+  .photostory .story-layout{grid-template-columns:minmax(0,1fr)}
+  .photostory .story-panel{padding:clamp(32px,6vw,52px) clamp(22px,5vw,38px)}
+  .photostory .story-panel h2{font-size:clamp(30px,5vw,39px)}
+  .photostory .photo-grid{grid-template-rows:repeat(2,minmax(150px,215px));min-height:0}
+}
+@media(max-width:460px){
+  .photostory .photo-grid{grid-template-rows:repeat(2,155px);gap:5px;padding:5px}
+  .photostory .story-panel h2{font-size:clamp(29px,8vw,36px)}
+}
+
+/* PRESENTACIÓN ITSSAT · Indicadores y claridad visual del diagnóstico. */
+.impact-scope{color:#b6ddc8!important;border-left:3px solid #9ce456;padding:5px 0 5px 15px;max-width:480px}
+.impact-card .counter{display:block;font-size:clamp(25px,2.6vw,36px);font-variant-numeric:tabular-nums;letter-spacing:-.03em}
+.impact-card span:last-child{line-height:1.4;overflow-wrap:anywhere}
+.impact-card{transition:transform .35s cubic-bezier(.2,.7,.2,1),border-color .25s,background .25s}
+.impact-card:hover{transform:translateY(-8px);background:#ffffff19;border-color:#a1f3af60}
+@media(max-width:570px){.impact-card .counter{font-size:28px}.timeline{gap:12px}.time-step:before{right:0}}
+@media(prefers-reduced-motion:reduce){.impact-card:hover{transform:none}}
+
+/* ==============================================================
+   ECOSYS V4.3 — ESTABILIDAD RESPONSIVA Y MOVIMIENTO EDITORIAL
+   12. Cabecera igual en Inicio y Privacidad (incluye zoom).
+   13. Galería con altura controlada, incluso al alejar zoom.
+   14. Secuencias de entrada/salida al recorrer secciones.
+   15. Microinteracciones, accesibilidad y visual de cierre.
+   ============================================================ */
+
+/* 12. SISTEMA COMPARTIDO — estilos finales de ambas páginas. */
+:root{--v43-ease:cubic-bezier(.19,1,.22,1);--v43-hdr:78px}
+html{scrollbar-gutter:stable;scroll-padding-top:calc(var(--v43-hdr) + 20px)}
+.site-header{height:var(--v43-hdr)!important;min-height:0!important;width:100%;font:inherit;line-height:1.58;transform:translateZ(0)}
+.site-header .container.nav{width:min(1200px,calc(100% - 64px));max-width:1200px;margin-inline:auto;min-width:0;display:flex;align-items:center;justify-content:space-between;gap:clamp(10px,1.2vw,18px)}
+.site-header .brand{font-size:24px!important;letter-spacing:-.04em;gap:9px;flex:0 0 auto;line-height:1.2}
+.site-header .brand img{width:58px!important;height:44px!important;object-fit:contain}
+.site-header .nav-links{gap:2px;display:flex;align-items:center;justify-content:center;flex:1 1 auto;min-width:0}
+.site-header .nav-links a{font:730 12.5px/1.35 'Segoe UI',Inter,system-ui,-apple-system,Arial,sans-serif!important;padding:10px 10px!important;border-radius:999px;white-space:nowrap;letter-spacing:0;min-width:0}
+.site-header .header-tag{flex:0 0 auto;font-size:11px!important;letter-spacing:.06em;padding:8px 11px}
+body{overflow-x:clip}
+/* Respecto al zoom: a partir de 1160 px hay una distribución fija; por debajo, menú móvil. */
+@media(max-width:1160px){.site-header .header-tag{display:none!important}.site-header .nav-links a{padding:9px 8px!important;font-size:12px!important}}
+@media(max-width:1040px){
+ :root{--v43-hdr:71px}
+ .site-header .container.nav{width:min(100% - 38px,900px)}
+ .site-header .mobile-toggle{display:flex!important;align-items:center;justify-content:center;flex:0 0 auto}
+ .site-header .nav-links{position:absolute;top:var(--v43-hdr);left:0;right:0;width:100%;min-width:0;display:none!important;flex-direction:column;align-items:stretch;justify-content:flex-start;background:#073a30f8;border-top:1px solid #ffffff1a;padding:15px max(19px,calc((100% - 820px)/2)) 22px;gap:5px;box-shadow:0 23px 38px #062d2960;max-height:calc(100dvh - var(--v43-hdr));overflow:auto;overscroll-behavior:contain}
+ .site-header .nav-links.open{display:flex!important;animation:v43-menu-open .45s var(--v43-ease) both}
+ .site-header .nav-links a{font-size:14px!important;padding:12px 14px!important;text-align:center}
+}
+@media(max-width:570px){.site-header .container.nav{width:calc(100% - 34px)}.site-header .brand{font-size:21px!important}.site-header .brand img{width:47px!important;height:37px!important}}
+@keyframes v43-menu-open{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
+
+/* 13. GALERÍA: NINGUNA imagen puede forzar la altura del contenido. */
+.photostory{position:relative;overflow:hidden;isolation:isolate;background:#e6f4eb}
+.photostory .story-layout{
+ display:grid!important;
+ grid-template-columns:minmax(0,42%) minmax(0,58%)!important;
+ height:clamp(510px,49vw,735px)!important;
+ min-height:0!important;
+ max-height:735px;
+ align-items:stretch;
+}
+.photostory .story-panel{
+ position:relative;overflow:hidden;isolation:isolate;
+ display:flex;align-items:center;justify-content:center;
+ padding:clamp(28px,4vw,68px)!important;
+ background:radial-gradient(circle at 85% 84%,#1d845744 0,transparent 38%),linear-gradient(135deg,#075b49 0%,#073c34 48%,#042924 100%);
+ min-width:0;height:100%;
+}
+.photostory .story-panel::before{
+ content:"";position:absolute;inset:16px;border:1px solid #cbf9d31e;border-radius:28px;pointer-events:none;
+}
+.photostory .story-panel::after{
+ content:"";position:absolute;right:-185px;bottom:-180px;width:400px;height:400px;border:1px solid #a9edb229;border-radius:50%;box-shadow:0 0 0 45px #7ae8aa08,0 0 0 95px #7ae8aa05;animation:v43-halo 12s ease-in-out infinite alternate;pointer-events:none;
+}
+.photostory .story-content{position:relative;z-index:1;max-width:610px;width:100%;min-width:0}
+.photostory .story-orb{position:absolute;right:13%;top:8%;height:110px;width:110px;background:radial-gradient(circle,#b4ed8c75,transparent 68%);filter:blur(23px);pointer-events:none;animation:v43-orb 8s ease-in-out infinite alternate}
+.photostory .story-panel h2{max-width:660px;font-size:clamp(32px,3.1vw,52px);line-height:1.12;letter-spacing:-.045em;hyphens:none;overflow-wrap:normal;margin:20px 0}
+.photostory .story-panel h2 em{font-style:normal;color:#c0f994}
+.photostory .story-panel p{color:#d4f0e1;font-size:clamp(14px,1.16vw,17px);line-height:1.8;max-width:560px;margin-bottom:24px}
+.photostory .story-panel .eyebrow{font-size:12px;color:#cdf4ad}
+.photostory .story-tags{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 22px}
+.photostory .story-tags span{padding:7px 11px;border-radius:99px;border:1px solid #b9eab852;color:#f2ffe9;background:#defcd910;font-size:12px;font-weight:700;backdrop-filter:blur(9px)}
+.photostory .story-discover{display:inline-flex;align-items:center;gap:13px;padding:10px 0;color:#c3ff9a;font-size:14px;font-weight:760;border-bottom:1px solid #a8fa855c;transition:gap .42s var(--v43-ease),color .3s}
+.photostory .story-discover:hover{gap:23px;color:#fff}
+.photostory .photo-grid{min-width:0;min-height:0!important;height:100%!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:repeat(2,minmax(0,1fr))!important;overflow:hidden;gap:10px;padding:10px;align-content:stretch}
+.photostory .photo-tile{position:relative;height:100%;min-height:0!important;min-width:0;overflow:hidden;contain:layout paint;background:linear-gradient(140deg,#1a5c49,#71a781);border-radius:18px;isolation:isolate}
+.photostory .photo-tile img{position:absolute!important;inset:0;width:100%!important;height:100%!important;display:block;max-width:none;object-fit:cover;object-position:center;transition:transform 1.25s var(--v43-ease),filter 1.1s ease;will-change:auto}
+.photostory .photo-tile:hover img{transform:scale(1.09);filter:saturate(1.12)}
+.photostory .photo-tile figcaption{z-index:3;pointer-events:none;background:linear-gradient(transparent,#062a26db)}
+.photostory .photo-tile::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(145deg,#c6f4cd18,transparent 45%,#062e2963);opacity:.6;transition:opacity .7s}
+.photostory .photo-tile:hover::after{opacity:.2}
+/* En pantallas medianas, texto e imágenes se disponen en dos filas. */
+@media(max-width:1040px){
+ .photostory .story-layout{display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto auto!important;height:auto!important;max-height:none;}
+ .photostory .story-panel{height:auto!important;min-height:310px;padding:clamp(33px,6vw,62px) clamp(24px,6vw,64px)!important}
+ .photostory .story-panel h2{font-size:clamp(30px,4.5vw,47px)}
+ .photostory .photo-grid{height:clamp(350px,57vw,540px)!important;grid-template-rows:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:570px){
+ .photostory .story-panel{padding:42px 28px!important;min-height:0}
+ .photostory .story-panel h2{font-size:clamp(31px,9vw,40px)}
+ .photostory .story-panel p{font-size:15px}
+ .photostory .photo-grid{height:clamp(330px,94vw,470px)!important;gap:6px;padding:6px}
+ .photostory .photo-tile{border-radius:13px}
+}
+@keyframes v43-halo{to{transform:scale(1.1) translate(-12px,-9px)}}
+@keyframes v43-orb{to{transform:translate(22px,29px)}}
+
+/* 14. RITMO AL DESPLAZAR: las imágenes entran y salen suavemente. */
+html.v43-motion-ready .v43-scene{transition:opacity 1s var(--v43-ease),transform 1.05s var(--v43-ease),filter .95s ease;transition-delay:var(--v43-delay,0ms)}
+html.v43-motion-ready .v43-scene:not(.v43-inview){opacity:0;filter:blur(6px);transform:translateY(28px) scale(.985)}
+html.v43-motion-ready .v43-scene.v43-inview{opacity:1;filter:blur(0);transform:none}
+/* Evitar competir con el zoom de las fotografías; efecto de máscara interna. */
+html.v43-motion-ready .photo-tile.v43-scene:not(.v43-inview){transform:translateY(23px) scale(.972)}
+html.v43-motion-ready .photo-tile.v43-scene.v43-inview{transform:none}
+/* Los elementos que se ven sin JS permanecen visibles. */
+@media(max-width:570px){html.v43-motion-ready .v43-scene:not(.v43-inview){transform:translateY(16px)}}
+
+/* 15. INTERACCIONES: CTA más rico, hover liviano y cabeceras. */
+.cta-panel{background:radial-gradient(ellipse at 90% 20%,#0fa85a8c 0,transparent 43%),linear-gradient(112deg,#5da91d 0%,#168a47 45%,#06352e 100%);isolation:isolate}
+.cta-panel::before{content:"";position:absolute;right:8%;top:-125px;width:330px;height:330px;border-radius:50%;border:1px solid #daffd535;box-shadow:0 0 0 42px #ffffff06,0 0 0 90px #ffffff06;animation:v43-halo 13s ease-in-out infinite alternate;pointer-events:none}
+.cta-panel h2{line-height:1.14}
+.cta-panel .btn{position:relative;z-index:2}
+:where(.problem-card,.feature,.resource,.eco-cloud-cta,.eco-cloud-results,.policy-card,.summary-card){transition:transform .75s var(--v43-ease),box-shadow .75s var(--v43-ease),border-color .55s ease}
+:where(.problem-card,.feature,.resource,.policy-card,.summary-card):hover{transform:translateY(-8px)}
+:where(.problem-card,.feature,.resource,.policy-card,.summary-card):active{transform:translateY(-2px) scale(.99)}
+:where(.resource,.photo-tile,.story-panel){transform-style:preserve-3d}
+/* Legibilidad cuando navegador está ampliado: módulos apilados sin overflow horizontal. */
+@media(max-width:850px){.container{width:min(100% - 38px,720px)}.privacy-grid,.tips-layout,.quiz-layout,.faq-grid{min-width:0}.resource-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:570px){.container{width:calc(100% - 34px)}.resource-grid{grid-template-columns:minmax(0,1fr)}.cta-panel{padding:32px 23px}}
+/* Movimiento reducido y dispositivos con ahorro de animación. */
+@media(prefers-reduced-motion:reduce){
+  html.v43-motion-ready .v43-scene:not(.v43-inview){opacity:1!important;transform:none!important;filter:none!important}
+  .photostory .story-orb,.photostory .story-panel::after,.cta-panel::before{animation:none!important}
+}
+
+/* 16. ZOOM BAJO: ancho editorial máximo para evitar fotos desproporcionadas. */
+.photostory{background:linear-gradient(90deg,#06372f,#0c604c 38%,#e6f4eb 76%,#e6f4eb)}
+.photostory .story-layout{width:min(100%,1840px);margin-inline:auto}
+@media(max-width:1040px){.photostory{background:#e6f4eb}}
+
+/* V4.3.1 · Encuesta: encabezado siempre visible; desplazamiento exclusivo del contenido. */
+.eco-survey-dialog[open]{height:min(92dvh,950px);max-height:min(92dvh,950px);padding:0;overflow:hidden}
+.eco-survey-dialog .eco-modal-head{position:relative;z-index:2;flex-shrink:0;box-shadow:0 5px 15px rgba(4,48,33,.10)}
+.eco-survey-dialog .eco-modal-body{position:relative;flex:1 1 auto;min-height:0;max-height:none;overflow-y:auto;overflow-x:hidden;scroll-behavior:auto;overflow-anchor:none}
+.eco-survey-dialog .eco-intro-instructions{margin-top:0}
+@media(max-width:570px){.eco-survey-dialog[open]{height:94dvh;max-height:94dvh}.eco-survey-dialog .eco-modal-head{padding:18px 16px}.eco-survey-dialog .eco-modal-body{padding:18px 16px}}
