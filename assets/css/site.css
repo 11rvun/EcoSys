@@ -25,3 +25,19 @@
 @media(max-width:820px){.container{width:min(720px,calc(100% - 40px))}.site-header{height:70px}.menu-toggle{display:block}.header-pill{display:inline-flex;margin-left:auto}.nav-links{position:absolute;left:0;right:0;top:70px;background:#06392f;padding:12px 20px 20px;display:none;flex-direction:column;align-items:stretch;box-shadow:0 20px 40px #002e2555}.nav-links.open{display:flex}.nav-links a{font-size:14px;text-align:center;padding:11px}.hero{padding:63px 0 50px}.hero-grid,.campus-grid{grid-template-columns:1fr}.hero-visual{min-height:360px;margin-top:8px}.hero-photo{inset:10px 18px 12px}.hero-proof{margin-top:26px}.campus-grid{gap:30px}.split{grid-template-columns:1fr}.resources-grid{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:1fr 1fr}.metric-row{gap:12px}.section{padding:75px 0}}
 @media(max-width:560px){.container{width:calc(100% - 32px)}.brand{font-size:22px}.brand img{width:45px;height:42px}.header-pill{font-size:9px;padding:6px 9px}.hero h1{font-size:clamp(37px,10.2vw,51px)}.hero-photo{inset:9px 12px 15px}.hero-visual{min-height:300px}.float-card{padding:9px 10px;font-size:10px}.float-card.one{left:-3px;top:20px}.float-card.two{right:-2px;bottom:30px}.hero-logo-stamp{width:72px;top:40px}.metric-row{grid-template-columns:1fr;gap:9px}.metric{border:0}.module-grid,.resources-grid,.minor-grid,.form-grid,.photo-links{grid-template-columns:1fr}.campus-images{grid-template-columns:1fr 1fr;grid-template-rows:185px 128px;gap:7px}.campus-images figure{border-radius:13px}.participation-panel,.results-panel,.tool-panel{padding:22px}.stat-metrics strong{font-size:29px}.eco-survey-dialog{width:calc(100% - 12px);height:94dvh;max-height:94dvh;border-radius:18px}.eco-modal-head{padding:18px}.eco-modal-body{padding:18px 16px}.eco-form-grid{grid-template-columns:1fr}.eco-q{padding:12px}.eco-q-options label{font-size:11px;padding:7px}.cta-panel{padding:30px 24px;display:block}.cta-panel .btn{margin-top:22px}.cta-panel h2{font-size:29px}.footer-grid{grid-template-columns:1fr}.page-hero{padding:54px 0 47px}.section{padding:61px 0}.bar-row{grid-template-columns:78px 1fr 52px}.site-header .nav{gap:8px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.motion-on .reveal{opacity:1!important;transform:none!important;filter:none!important}}
+
+/* EcoSys: acceso administrativo en la cabecera */
+.nav-admin{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:34px;padding:7px 12px;border:1px solid rgba(187,246,165,.46);border-radius:999px;background:rgba(191,246,165,.11);color:#e8ffdd;font-size:11px;line-height:1;font-weight:800;white-space:nowrap;transition:background .2s,transform .2s,border-color .2s}
+.nav-admin:hover,.nav-admin:focus-visible{background:#b8f65e;color:#073c31;border-color:#b8f65e;transform:translateY(-1px);text-decoration:none}
+.nav-admin svg{flex-shrink:0}
+@media(max-width:1250px){.nav-admin{width:37px;height:37px;min-height:37px;padding:0}.nav-admin span{display:none}}
+@media(max-width:820px){.nav-admin{margin-left:0;order:3}.site-header .nav>.menu-toggle{order:4}}
+@media(max-width:430px){.header-pill{display:none}}
+/* Tarjeta de acceso al panel */
+.admin-login-card{max-width:580px;margin:0 auto 24px}
+.admin-login-icon{width:54px;height:54px;display:grid;place-items:center;border-radius:17px;background:#e5f8dc;color:#0b6a49;margin-bottom:17px}
+.admin-login-intro{font-size:13px;line-height:1.7;margin-bottom:18px}
+.admin-login-card .field{margin-bottom:14px}
+.admin-login-card .btn[disabled]{opacity:.6;cursor:not-allowed}
+#adminTurnstile{margin-top:12px;min-height:68px}
+.admin-login-badge{display:inline-flex;align-items:center;gap:8px;border-radius:12px;background:#eef8ee;color:#24654c;padding:10px 12px;font-size:12px;margin:5px 0 12px}
