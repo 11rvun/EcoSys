@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>CLEAN SKETCH QR</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body { 
+      overflow: hidden; 
+      font-family: 'Poppins', sans-serif; 
+      background: linear-gradient(135deg, #e0f2fe 0%, #ede9fe 50%, #f8fafc 100%);
+      background-size: 200% 200%;
+      animation: gradientBG 10s ease infinite;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    #canvas-container { 
+      width: 100vw; 
+      height: 100vh; 
+      cursor: grab; 
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+    #canvas-container.visible { opacity: 1; }
+    #canvas-container:active { cursor: grabbing; }
+
+    #loader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #f8fafc;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+    #loader.oculto { opacity: 0; pointer-events: none; }
+    .spinner {
+      width: 60px; height: 60px;
+      border: 6px solid #e2e8f0;
+      border-top: 6px solid #8b5cf6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    #loader p { color: #64748b; font-weight: 600; font-size: 18px; letter-spacing: 1px; }
+
+    header {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 20;
+      pointer-events: none; 
+    }
+    
+    .titulo-contenedor {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      padding: 15px 30px;
+      border-radius: 50px;
+      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    header h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: -webkit-linear-gradient(45deg, #1a73e8, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    header h1 span {
+      font-weight: 400;
+      color: #64748b;
+      -webkit-text-fill-color: #64748b;
+    }
+
+    #instrucciones {
+      position: fixed;
+      top: 95px; left: 40px;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      padding: 18px 25px;
+      border-radius: 20px;
+      font-size: 14px;
+      color: #334155;
+      z-index: 10;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.05);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      line-height: 1.8;
+    }
+    #instrucciones strong { color: #1e293b; }
+
+    #botones {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 15px;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      padding: 12px;
+      border-radius: 50px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+    
+    #botones button {
+      padding: 12px 28px;
+      background: transparent;
+      border: none;
+      color: #475569;
+      border-radius: 40px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    #botones button:hover { 
+      background: rgba(255, 255, 255, 0.9); 
+      color: #0f172a;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    
+    #botones button#btn-3d {
+      background: linear-gradient(45deg, #1a73e8, #8b5cf6);
+      color: white;
+      box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+    }
+    
+    #botones button#btn-3d:hover {
+      box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
+      transform: translateY(-2px);
+    }
+
+    #modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(15, 23, 42, 0.8); 
+      backdrop-filter: blur(10px); 
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    #modal.activo { display: flex; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    #modal-contenido {
+      background: #ffffff;
+      padding: 35px;
+      border-radius: 24px;
+      max-width: 650px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      position: relative;
+      animation: scaleUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 1px solid #e2e8f0;
+    }
+
+    @keyframes scaleUp {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    #titulo-bote {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 28px;
+      color: #0f172a;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+    
+    #vista-principal img, #vista-galeria img {
+      max-width: 100%;
+      max-height: 50vh;
+      border-radius: 16px;
+      object-fit: contain;
+      min-height: 200px;
+      background-color: #f1f5f9;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    
+    #vista-galeria { display: none; }
+    
+    .controles-galeria {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 25px;
+      margin-top: 20px;
+    }
+    
+    .btn-flecha {
+      background: #f8fafc;
+      color: #1e293b;
+      border: 1px solid #e2e8f0;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      font-size: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.2s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    .btn-flecha:hover { background: #e2e8f0; transform: scale(1.1); }
+    
+    #contador-fotos { font-size: 15px; font-weight: 600; color: #64748b; letter-spacing: 1px; }
+
+    .botones-modal {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+
+    .btn-accion {
+      padding: 14px 28px;
+      background: #f1f5f9;
+      color: #334155;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      transition: all 0.2s;
+    }
+    
+    .btn-accion:hover { background: #e2e8f0; transform: translateY(-2px); }
+    
+    #btn-mas-fotos { background: #e0e7ff; color: #4338ca; }
+    #btn-mas-fotos:hover { background: #c7d2fe; }
+    
+    #cerrar { background: #fee2e2; color: #b91c1c; }
+    #cerrar:hover { background: #fecaca; }
+
+    #btn-ayuda {
+      position: fixed;
+      bottom: 30px; right: 30px;
+      width: 50px; height: 50px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #64748b;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      z-index: 15;
+      transition: all 0.2s;
+      border: 1px solid #e2e8f0;
+    }
+    #btn-ayuda:hover { transform: scale(1.1); color: #1a73e8; }
+
+    @media (max-width: 768px) {
+      header { padding: 15px 20px; }
+      header h1 { font-size: 18px; }
+      #instrucciones { display: none; }
+      #botones { bottom: 15px; padding: 8px; gap: 5px; width: 95%; justify-content: center; }
+      #botones button { padding: 10px 15px; font-size: 12px; flex: 1; justify-content: center; }
+      #modal-contenido { padding: 20px; }
+      #btn-ayuda { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loader">
+    <div class="spinner"></div>
+    <p>Cargando Croquis 3D...</p>
+  </div>
+
+  <header>
+    <div class="titulo-contenedor">
+      <h1>CLEAN SKETCH QR <span>
+    </div>
+  </header>
+
+  <div id="instrucciones">
+    ✋ <strong>Mover:</strong> Clic izquierdo y arrastrar<br>
+    🔄 <strong>Rotar:</strong> Clic derecho y arrastrar<br>
+    🔍 <strong>Zoom:</strong> Rueda del ratón<br>
+    📍 <strong>Botes:</strong> Haz clic en los iconos de ubicación
+  </div>
+
+  <div id="canvas-container"></div>
+
+  <div id="botones">
+    <button id="btn-3d">Vista 3D</button>
+    <button id="btn-superior">Vista Superior</button>
+    <button id="btn-frontal">Vista Frontal</button>
+  </div>
+
+  <div id="btn-ayuda" title="Ayuda">?</div>
+
+  <div id="modal">
+    <div id="modal-contenido">
+      <h2 id="titulo-bote">Edificio</h2>
+      
+      <div id="vista-principal">
+        <img id="imagen-principal" src="" alt="Foto principal">
+      </div>
+
+      <div id="vista-galeria">
+        <img id="imagen-galeria" src="" alt="Foto de la galería">
+        <div class="controles-galeria">
+          <button class="btn-flecha" id="btn-anterior">❮</button>
+          <span id="contador-fotos">1 / 1</span>
+          <button class="btn-flecha" id="btn-siguiente">❯</button>
+        </div>
+      </div>
+
+      <p id="descripcion-bote" style="color: #475569; font-size: 15px; margin-top: 15px;">Ubicación de los botes de basura.</p>
+      
+      <div class="botones-modal">
+        <button class="btn-accion" id="btn-mas-fotos">Ver más fotos</button>
+        <button class="btn-accion" id="btn-regresar" style="display: none;">Regresar</button>
+        <button class="btn-accion" id="cerrar">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    scene.background = null; 
+
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 10000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); 
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(renderer.domElement);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 1.2));
+    const sol = new THREE.DirectionalLight(0xffffff, 2.5);
+    sol.position.set(50, 100, 50);
+    scene.add(sol);
+    const luzRelleno = new THREE.DirectionalLight(0xffffff, 1);
+    luzRelleno.position.set(-50, 0, -50);
+    scene.add(luzRelleno);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.autoRotate = false;
+    controls.screenSpacePanning = true;
+    controls.minPolarAngle = Math.PI / 4; 
+    controls.maxPolarAngle = Math.PI / 2.1; 
+    controls.mouseButtons = {
+      LEFT: THREE.MOUSE.PAN,    
+      MIDDLE: THREE.MOUSE.DOLLY, 
+      RIGHT: THREE.MOUSE.ROTATE  
+    };
+
+    let distanciaCamara = 0;
+
+    const loader = new GLTFLoader();
+    // EcoSys V5: GLB comprimido (~18 MB). GitHub permite subirlo desde la web (<25 MB).
+    // Descompresión nativa; detecta si el servidor ya descomprimió el archivo HTTP.
+    fetch('escuela.glb.gz').then(async response => {
+      if (!response.ok) throw new Error('No se pudo obtener escuela.glb.gz (' + response.status + ')');
+      let bytes = await response.arrayBuffer();
+      const head = new Uint8Array(bytes, 0, Math.min(4, bytes.byteLength));
+      if (head[0] === 0x1f && head[1] === 0x8b) {
+        if (typeof DecompressionStream === 'undefined') throw new Error('Tu navegador no admite la carga del modelo comprimido. Actualízalo.');
+        bytes = await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+      }
+      return await new Promise((resolve, reject) => loader.parse(bytes, '', resolve, reject));
+    }).then((gltf) => {
+      const modelo = gltf.scene;
+      modelo.scale.set(0.01, 0.01, 0.01); 
+
+      modelo.traverse((child) => {
+        if (child.isMesh) {
+          child.material.side = THREE.DoubleSide; 
+        }
+      });
+
+      scene.add(modelo);
+      const box = new THREE.Box3().setFromObject(modelo);
+      const centro = box.getCenter(new THREE.Vector3());
+      const tamaño = box.getSize(new THREE.Vector3());
+      const maxDim = Math.max(tamaño.x, tamaño.y, tamaño.z);
+
+      modelo.position.sub(centro);
+      distanciaCamara = maxDim * 0.55;
+
+      camera.position.set(distanciaCamara, distanciaCamara, distanciaCamara);
+      controls.target.set(0, 0, 0);
+      controls.update();
+
+      document.getElementById('loader').classList.add('oculto');
+      container.classList.add('visible');
+    }).catch(error => {
+      console.error('Error del recorrido 3D:',error);
+      const box=document.getElementById('loader');
+      if(box){box.querySelector('p').textContent='No fue posible abrir el modelo 3D: '+error.message;}
+    });
+
+    document.getElementById('btn-3d').addEventListener('click', () => {
+      camera.position.set(distanciaCamara, distanciaCamara, distanciaCamara);
+      controls.target.set(0, 0, 0);
+      controls.update();
+    });
+
+    document.getElementById('btn-superior').addEventListener('click', () => {
+      camera.position.set(0, distanciaCamara * 1.2, 0.1); 
+      controls.target.set(0, 0, 0);
+      controls.update();
+    });
+
+    document.getElementById('btn-frontal').addEventListener('click', () => {
+      camera.position.set(0, 0, distanciaCamara * 1.2);
+      controls.target.set(0, 0, 0);
+      controls.update();
+    });
+
+    const botes = [
+      { x: -344.92, y: 1.72, z: -287.96, titulo: 'Biblioteca', foto: 'fotos/Biblioteca.jfif', galeria: ['fotos/BoteBiblioteca.jfif', 'fotos/BoteBiblioteca2.jfif'] },
+      { x: -301.28, y: 1.52, z: -49.45,  titulo: 'Edificio H', foto: 'fotos/EdificioH.jfif', galeria: [] },
+      { x: -210.77, y: 20.41, z: -115.57, titulo: 'Edificio A', foto: 'fotos/EdificioA.jfif', galeria: ['fotos/BoteA.jfif'] },
+      { x: -359.62, y: 18.19, z: -108.02, titulo: 'Edificio B', foto: 'fotos/EdificioB.jfif', galeria: [] },
+      { x: -108.34, y: -0.61, z: -328.93, titulo: 'Edificio D', foto: 'fotos/EdificioD.jfif', galeria: ['fotos/BoteD.jfif'] },
+      { x: -326.45, y: 3.53,  z: -369.69, titulo: 'Edificio G', foto: 'fotos/EdificioG.jfif', galeria: ['fotos/BoteG1.jfif','fotos/BoteG2.jfif'] },
+      { x: -153.80, y: -1.24, z: -178.37, titulo: 'Jefaturas', foto: 'fotos/Jefaturas.jfif', galeria: [] },
+      { x: -116.88, y: 0.85,  z: -211.14, titulo: 'Laboratorios', foto: 'fotos/Laboratorios.jfif', galeria: [] },
+      { x: -113.65, y: 20.79, z: -260.72, titulo: 'Electro', foto: 'fotos/Electro.jfif', galeria: [] }
+    ];
+
+    const iconos = [];
+    
+    // 🔥 CREACIÓN DEL ICONO DE UBICACIÓN 3D
+    // Hacemos una esfera aplastada y un cono para formar la clásica "gota" de mapa
+    const matIcono = new THREE.MeshStandardMaterial({ 
+      color: 0x1a73e8, // Azul brillante
+      emissive: 0x1a73e8, 
+      emissiveIntensity: 0.5,
+      roughness: 0.3,
+      metalness: 0.2
+    });
+
+    // Función para crear la geometría del pin de ubicación
+    function crearPinGeometria() {
+      const pinGroup = new THREE.Group();
+      
+      // La parte de arriba (esfera)
+      const cabezaGeo = new THREE.SphereGeometry(8, 16, 16);
+      const cabeza = new THREE.Mesh(cabezaGeo, matIcono);
+      cabeza.position.y = 8; // Elevarlo un poco
+      
+      // La parte de abajo (cono invertido)
+      const puntaGeo = new THREE.ConeGeometry(8, 16, 16);
+      const punta = new THREE.Mesh(puntaGeo, matIcono);
+      punta.rotation.x = Math.PI; // Invertir el cono
+      punta.position.y = 0; // Ponerlo debajo de la esfera
+      
+      // Unir ambas partes
+      pinGroup.add(cabeza);
+      pinGroup.add(punta);
+      
+      return pinGroup;
+    }
+
+    const geometriaPin = crearPinGeometria();
+
+    botes.forEach((bote) => {
+      // Clonamos el icono para cada bote
+      const iconoPin = geometriaPin.clone();
+      iconoPin.position.set(bote.x, bote.y, bote.z);
+      iconoPin.userData = bote;
+      scene.add(iconoPin);
+      iconos.push(iconoPin);
+    });
+
+    let fotosActuales = [];
+    let indiceFotoActual = 0;
+    const vistaPrincipal = document.getElementById('vista-principal');
+    const vistaGaleria = document.getElementById('vista-galeria');
+    const btnMasFotos = document.getElementById('btn-mas-fotos');
+    const btnRegresar = document.getElementById('btn-regresar');
+
+    function mostrarFotoGaleria() {
+      document.getElementById('imagen-galeria').src = fotosActuales[indiceFotoActual];
+      document.getElementById('contador-fotos').textContent = `${indiceFotoActual + 1} / ${fotosActuales.length}`;
+    }
+
+    btnMasFotos.addEventListener('click', () => {
+      if (fotosActuales.length > 0) {
+        vistaPrincipal.style.display = 'none';
+        vistaGaleria.style.display = 'block';
+        btnMasFotos.style.display = 'none';
+        btnRegresar.style.display = 'inline-block';
+        indiceFotoActual = 0;
+        mostrarFotoGaleria();
+      }
+    });
+
+    btnRegresar.addEventListener('click', () => {
+      vistaPrincipal.style.display = 'block';
+      vistaGaleria.style.display = 'none';
+      btnMasFotos.style.display = 'inline-block';
+      btnRegresar.style.display = 'none';
+    });
+
+    document.getElementById('btn-siguiente').addEventListener('click', () => {
+      indiceFotoActual = (indiceFotoActual + 1) % fotosActuales.length;
+      mostrarFotoGaleria();
+    });
+
+    document.getElementById('btn-anterior').addEventListener('click', () => {
+      indiceFotoActual = (indiceFotoActual - 1 + fotosActuales.length) % fotosActuales.length;
+      mostrarFotoGaleria();
+    });
+
+    document.getElementById('btn-ayuda').addEventListener('click', () => {
+      alert("Controles:\n✋ Mover: Desliza un dedo\n🔄 Rotar: Desliza con dos dedos\n🔍 Zoom: Pellizca con dos dedos\n📍 Botes: Toca los pines de ubicación");
+    });
+
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    let posicionInicialRaton = { x: 0, y: 0 };
+
+    renderer.domElement.addEventListener('pointerdown', (event) => {
+      if (event.button === 0) { 
+        posicionInicialRaton = { x: event.clientX, y: event.clientY };
+      }
+    });
+
+    renderer.domElement.addEventListener('pointerup', (event) => {
+      if (event.button !== 0) return; 
+
+      const distanciaMovida = Math.hypot(event.clientX - posicionInicialRaton.x, event.clientY - posicionInicialRaton.y);
+
+      if (distanciaMovida < 5) {
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        raycaster.setFromCamera(mouse, camera);
+        
+        const intersecciones = raycaster.intersectObjects(iconos, true); // true para buscar dentro del grupo
+        
+        if (intersecciones.length > 0) {
+          // Buscar el objeto que tenga los datos del bote
+          let objetoBote = intersecciones[0].object;
+          while (objetoBote && !objetoBote.userData.titulo) {
+            objetoBote = objetoBote.parent;
+          }
+
+          if (objetoBote && objetoBote.userData.titulo) {
+            const bote = objetoBote.userData;
+            
+            document.getElementById('titulo-bote').textContent = bote.titulo;
+            document.getElementById('imagen-principal').src = bote.foto;
+            
+            fotosActuales = bote.galeria || [];
+            
+            vistaPrincipal.style.display = 'block';
+            vistaGaleria.style.display = 'none';
+            
+            if (fotosActuales.length > 0) {
+              btnMasFotos.style.display = 'inline-block';
+            } else {
+              btnMasFotos.style.display = 'none';
+            }
+            btnRegresar.style.display = 'none';
+
+            document.getElementById('modal').classList.add('activo');
+          }
+        }
+      }
+    });
+
+    document.getElementById('cerrar').addEventListener('click', () => {
+      document.getElementById('modal').classList.remove('activo');
+    });
+
+    function animar() {
+      requestAnimationFrame(animar);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animar();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+<a href="../campus.html" aria-label="Regresar a EcoSys" style="position:fixed;right:20px;top:16px;z-index:100;background:#064c3d;color:#fff;padding:10px 18px;border-radius:99px;font:600 13px system-ui;text-decoration:none;box-shadow:0 5px 22px #0002">← EcoSys</a>
+</body>
+</html>
