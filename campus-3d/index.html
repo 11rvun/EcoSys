@@ -2,7 +2,9 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>CLEAN SKETCH QR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="../ecosys_favicon.png">
+  <title>Campus 3D | EcoSys ITSSAT</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
   
   <style>
@@ -307,7 +309,12 @@
       #modal-contenido { padding: 20px; }
       #btn-ayuda { display: none; }
     }
-  </style>
+    /* Ajuste visual de EcoSys para el visor tridimensional. */
+  header h1 { background: none; -webkit-text-fill-color: #07523c; color: #07523c; }
+  header h1 span { -webkit-text-fill-color: #2b7155; color: #2b7155; }
+  .titulo-contenedor { border: 1px solid #bce4c8; }
+  @media(max-width:480px) { .titulo-contenedor { padding:10px 12px; } header h1 { font-size:15px; } }
+</style>
 </head>
 <body>
 
@@ -316,9 +323,10 @@
     <p>Cargando Croquis 3D...</p>
   </div>
 
+  <!-- Encabezado del recorrido, distinto del menú principal de EcoSys. -->
   <header>
     <div class="titulo-contenedor">
-      <h1>CLEAN SKETCH QR <span>
+      <h1>EcoSys <span>· Campus 3D</span></h1>
     </div>
   </header>
 
@@ -644,6 +652,6 @@
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
   </script>
-<a href="../campus.html" aria-label="Regresar a EcoSys" style="position:fixed;right:20px;top:16px;z-index:100;background:#064c3d;color:#fff;padding:10px 18px;border-radius:99px;font:600 13px system-ui;text-decoration:none;box-shadow:0 5px 22px #0002">← EcoSys</a>
+<a href="../campus.html" aria-label="Regresar a EcoSys" style="position:fixed;right:20px;top:16px;z-index:100;background:#064c3d;color:#fff;padding:10px 18px;border-radius:99px;font:600 13px system-ui;text-decoration:none;box-shadow:0 5px 22px #0002">← Volver a EcoSys</a>
 </body>
 </html>

@@ -1,2 +1,11 @@
-/* Inicio diferido del recorrido 3D; evita descargar 56 MB en la portada. */
-(()=>{'use strict';const b=document.getElementById('startViewer'),cover=document.getElementById('viewerCover'),shell=document.getElementById('viewer');if(!b||!shell)return;b.addEventListener('click',()=>{const frame=document.createElement('iframe');frame.src='campus-3d/index.html';frame.title='Recorrido tridimensional del ITSSAT';frame.className='viewer-frame';frame.setAttribute('allowfullscreen','');frame.setAttribute('loading','eager');cover.remove();shell.append(frame);b.disabled=true;});})();
+/* EcoSys V5: recorrido 3D en vista independiente para evitar menús duplicados. */
+(() => {
+  'use strict';
+  const button = document.getElementById('startViewer');
+  if (!button) return;
+  button.addEventListener('click', () => {
+    button.disabled = true;
+    button.textContent = 'Abriendo el recorrido 3D…';
+    window.location.assign('campus-3d/index.html');
+  });
+})();
